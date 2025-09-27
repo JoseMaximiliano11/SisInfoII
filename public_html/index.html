@@ -10,9 +10,9 @@
   <div class="container">
     <h1>Registro de Postulación</h1>
 
-    <form id="registroForm">
+    <form id="registroForm" onsubmit="return Validacion()">
       <label for="nombre">Nombre Completo:</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+      <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" >
       <br><br>
 
       <label for="ci">Número de C.I.:</label>
@@ -39,7 +39,25 @@
       <button type="submit">Registrar</button>
     </form>
   </div>
-
-<script src="js/script.js"></script>
+    
+    <script>
+            var nombre = document.getElementById("nombre");
+          
+            var expRegNombre=/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/;
+            var expRegEmail=/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+            var expRegNumeros=/^[0-9]*$/;
+            function Validacion(){
+                if(nombre.value==""){
+                    alert("El campo Nombre no puede ir vacio");
+                    nombre.focus();
+                    return false;
+                }else if(!expRegNombre.test(nombre.value)){
+                   alert("Aqui solo van letras :)");
+                   nombre.focus();
+                   return false;
+               }
+               return true;
+            }
+    </script>
 </body>
 </html>
