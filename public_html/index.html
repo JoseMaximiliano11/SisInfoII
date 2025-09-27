@@ -12,19 +12,19 @@
 
     <form id="registroForm" onsubmit="return Validacion()">
       <label for="nombre">Nombre Completo:</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" >
+      <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
       <br><br>
 
       <label for="ci">Número de C.I.:</label>
-      <input type="text" id="ci" name="ci" placeholder="Ej: 12345678" required>
-      <br><br>
+      <input type="text" id="ci" name="ci" placeholder="Ej: 12345678" minlength="7" maxlength="8" required>
+      <br><br>.
 
       <label for="email">Correo Electrónico:</label>
       <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
       <br><br>
 
       <label for="password">Contraseña:</label>
-      <input type="password" id="password" name="password" required>
+      <input type="password" id="password" name="password" minlength="7" maxlength="8" required>
       <br><br>
       <label for="carrera">facultad a Postular:</label>
             <select id="carrera" name="facultad" required>
@@ -42,20 +42,29 @@
     
     <script>
             var nombre = document.getElementById("nombre");
+            var ci = document.getElementById("ci");
+            var email = document.getElementById("email");
+            
           
             var expRegNombre=/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/;
             var expRegEmail=/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
             var expRegNumeros=/^[0-9]*$/;
             function Validacion(){
-                if(nombre.value==""){
-                    alert("El campo Nombre no puede ir vacio");
-                    nombre.focus();
-                    return false;
-                }else if(!expRegNombre.test(nombre.value)){
+                if(!expRegNombre.test(nombre.value)){//-----
                    alert("Aqui solo van letras :)");
                    nombre.focus();
                    return false;
-               }
+               }else if(!expRegNumeros.exec(ci.value)){//-----
+                    alert("Aqui solo van Numeros");
+                    ci.focus();
+                    return false;
+                }else if (!expRegEmail.test(email.value)) {
+                    alert("Ingrese un correo válido (ejemplo: usuario@gmail.com)");
+                    email.focus();
+                    return false;
+                }
+               alert("REGISTRADO con éxito 🎉");
+
                return true;
             }
     </script>
