@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f6f8;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.container h1 {
+    color: #0d3c55;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.container h2 {
+    color: #0d3c55;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.instruccion {
+    text-align: center;
+    color: #555;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+/* Sección de selección de método */
+.metodos-pago {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.btn-metodo {
+    background: #ffffff;
+    border: 2px solid #0d3c55;
+    border-radius: 12px;
+    padding: 30px 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    min-width: 180px;
+}
+
+.btn-metodo:hover {
+    background: #0d3c55;
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(13, 60, 85, 0.3);
+}
+
+.icono-metodo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.btn-metodo span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.btn-metodo:hover span {
+    color: white;
+}
+
+/* Panel de pago */
+.panel-pago {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-volver {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.btn-volver:hover {
+    background: #5a6268;
+}
+
+/* Contenedor QR */
+.qr-container {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.qr-code {
+    width: 250px;
+    height: 250px;
+    border: 3px solid #0d3c55;
+    border-radius: 8px;
+    padding: 10px;
+    background: white;
+}
+
+/* Información de pago */
+.info-pago {
+    background: #e8f4f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #0d3c55;
+}
+
+.info-pago p {
+    margin: 8px 0;
+    color: #333;
+    font-size: 15px;
+}
+
+/* Datos bancarios */
+.datos-bancarios {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.dato-banco {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.dato-banco:last-child {
+    border-bottom: none;
+    padding-top: 15px;
+    margin-top: 10px;
+    border-top: 2px solid #0d3c55;
+}
+
+.dato-banco .label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.dato-banco .valor {
+    color: #212529;
+}
+
+.dato-banco .valor.destacado {
+    color: #0d3c55;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Formulario de comprobante */
+.form-comprobante {
+    margin-top: 30px;
+}
+
+.form-comprobante label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-comprobante input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #0d3c55;
+    border-radius: 6px;
+    background: #f8f9fa;
+    cursor: pointer;
+}
+
+.form-comprobante input[type="text"],
+.form-comprobante input[type="date"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    font-size: 14px;
+}
+
+.form-comprobante input:focus {
+    border-color: #0d3c55;
+}
+
+.btn-confirmar {
+    width: 100%;
+    padding: 14px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+    background-color: #28a745;
+    transition: background-color 0.3s ease;
+}
+
+.btn-confirmar:hover {
+    background-color: #218838;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .metodos-pago {
+        flex-direction: column;
+    }
+    
+    .btn-metodo {
+        width: 100%;
+    }
+    
+    .qr-code {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .dato-banco {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
