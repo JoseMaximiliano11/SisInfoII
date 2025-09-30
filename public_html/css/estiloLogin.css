@@ -21,7 +21,7 @@ body {
   font-size: 14px;
 }
 
-.boton {
+.btnLogin {
   width: 220px;
   padding: 10px;
   background-color: #2f3c4f;
@@ -31,6 +31,6 @@ body {
   cursor: pointer;
 }
 
-.boton:hover {
+.btnLogin:hover {
   background-color: #1f2a36;
 }

@@ -1,30 +1,115 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
   <title>Login - Universidad</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="CSS/estiloLogin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 <body>
   <div class="login-container">
-    <input type="email" id="email" placeholder="E-mail" class="input-box" required>
-    <input type="password" id="password" placeholder="Password" class="input-box" required>
-    <button class="boton" onclick="iniciarSesion()">INICIAR SESIÓN</button>
+    <input type="email" id="email" placeholder="E-mail" class="input-box" required />
+    <input type="password" id="password" placeholder="Password" class="input-box" minlength="7" maxlength="8" required />
+    <button id="btnLogin" class="btnLogin">INICIAR SESIÓN</button>
+    <div id="msg"></div>
   </div>
 
   <script>
-    function iniciarSesion() {
-      // Obtener los valores de los inputs
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
+    // --- CONFIG: pega tu URL y ANON KEY completas ---
+    const SUPABASE_URL = "https://sfgdvyagceyptwhlvukg.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmZ2R2eWFnY2V5cHR3aGx2dWtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg1OTMwMjIsImV4cCI6MjA3NDE2OTAyMn0.9idTplKHaMnw59kMRsF9URMF_-JE6ifivFZeKrzYPys";
 
-      // Verificar si están vacíos
-      if (email === "" || password === "") {
-        alert("Por favor, completa todos los campos.");
-      } else {
-        // Si no están vacíos, redirigir
-        window.location.href = "inicio.html";
-      }
+    const msgEl = document.getElementById('msg');
+
+    // Inicializa cliente Supabase (asegúrate de que la librería se cargó)
+    if (typeof supabase === 'undefined') {
+      msgEl.textContent = "Error: no se cargó la librería de Supabase. Revisa el <script> de la CDN.";
+      console.error("Supabase no cargado (window.supabase undefined).");
+    } else {
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      document.getElementById('btnLogin').addEventListener('click', async (ev) => {
+        ev.preventDefault();
+        msgEl.style.color = "crimson";
+        msgEl.textContent = "";
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          msgEl.textContent = "Completa email y password.";
+          return;
+        }
+
+        const btn = ev.currentTarget;
+        btn.disabled = true;
+        btn.textContent = "Comprobando...";
+
+        try {
+          const tablesToTry = ["postulantes", "POSTULANTES"]; // intenta variantes
+          let handled = false;
+
+          for (const TABLA of tablesToTry) {
+            msgEl.textContent = `Consultando tabla "${TABLA}"...`;
+
+            // Realiza la consulta (ilike = case-insensitive)
+            const { data, error } = await supabaseClient
+              .from(TABLA)
+              .select("*")
+              .ilike("correoElectronico", email)
+              .maybeSingle();
+
+            // Para debugging rápido en consola (no visible en la página)
+            console.log(`Intento tabla ${TABLA}:`, { data, error });
+
+            if (error) {
+              // sigue intentando con otra variante de nombre de tabla
+              msgEl.textContent = `Error al consultar la tabla "${TABLA}".`;
+              continue;
+            }
+
+            if (!data) {
+              // no existe en esta tabla, intentar siguiente
+              msgEl.textContent = `Usuario no encontrado en "${TABLA}".`;
+              continue;
+            }
+
+            // Si existe fila, comparo contraseña (solo si guardas en texto plano)
+            const storedPassword = data.password ?? data.contraseña ?? data.pass ?? null;
+            if (!storedPassword) {
+              msgEl.textContent = `Usuario encontrado en "${TABLA}" pero no se detectó columna de contraseña.`;
+              handled = true;
+              break;
+            }
+
+            if (String(storedPassword) === String(password)) {
+              // Éxito: redirigir a inicio.html
+              msgEl.style.color = "green";
+              msgEl.textContent = "✅ Credenciales correctas. Redirigiendo...";
+              sessionStorage.setItem("user_id", data.id ?? JSON.stringify(data));
+              setTimeout(() => { window.location.href = "inicio.html"; }, 250);
+              handled = true;
+              break;
+            } else {
+              msgEl.textContent = "❌ Contraseña incorrecta.";
+              handled = true;
+              break;
+            }
+          } // for
+
+          if (!handled) {
+            msgEl.textContent = "Falló la consulta. Revisa nombre de tabla/columnas y políticas RLS en Supabase.";
+          }
+        } catch (err) {
+          console.error("Error al consultar Supabase:", err);
+          msgEl.textContent = "Ocurrió un error al iniciar sesión. Revisa consola (F12).";
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "INICIAR SESIÓN";
+        }
+      });
     }
   </script>
 </body>
