@@ -1,0 +1,58 @@
+.encabezado {
+    position: relative;
+    min-height: 50px;
+}
+
+ul.breadcrumb {
+    padding: 8px 16px;
+    list-style: none;
+    background-color: #eee;
+    margin: 0;
+}
+
+ul.breadcrumb li {
+    display: inline;
+}
+
+ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+}
+
+ul.breadcrumb a:link, ul.breadcrumb a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+ul.breadcrumb li a.active {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+ul.breadcrumb li a.active:hover {
+    color: #397f3b;
+    font-weight: bold;
+}
+
+/* Botón GUIA en el header - más abajo */
+.boton-guia-header {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    padding: 12px 25px;
+    background-color: #546e7a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+}
+
+.boton-guia-header:hover {
+    background-color: #3d5460;
+}
