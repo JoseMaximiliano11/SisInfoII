@@ -88,13 +88,11 @@ async function Validacion(){
             carrera.value
         );
 
-        console.log('📥 Resultado:', resultado);
+        console.log(' Resultado:', resultado);
 
         if (resultado && resultado.length > 0) {
-            alert("¡REGISTRADO con éxito! 🎉\n\nAhora proceda con el registro de pago.");
-            console.log('✅ Postulante guardado:', resultado[0]);
-            
-            // Redirigir a la página de pago
+           
+            console.log('Postulante guardado:', resultado[0]);
             window.location.href = 'pago.html';
             return true;
         } else {
@@ -102,7 +100,7 @@ async function Validacion(){
             return false;
         }
     } catch (error) {
-        console.error('❌ Error:', error);
+        console.error(' Error:', error);
         alert("Error de conexión");
         return false;
     }

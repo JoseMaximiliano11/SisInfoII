@@ -16,21 +16,22 @@ async function conectarSupabase(tabla, metodo = 'GET', datos = null) {
         }
     };
 
-    if (datos) {
-        opciones.body = JSON.stringify(datos);
-    }
-
-    try {
+    if (datos) opciones.body = JSON.stringify(datos);
+  try {
     const respuesta = await fetch(url, opciones);
-    const resultado = await respuesta.json();
+    let resultado = null;
+    try { resultado = await respuesta.json(); } catch (e) { resultado = null; }
 
     if (!respuesta.ok) {
-        console.error("Error en Supabase:", resultado);
-        return null;
+    
+      const error = new Error(resultado?.message || 'Error en Supabase');
+      error.status = respuesta.status;
+      error.server = resultado;
+      throw error;
     }
-    return resultado;
-} catch (error) {
-    console.error('Error conectando con Supabase:', error);
-    return null;
+
+    return { ok: true, status: respuesta.status, data: resultado };
+  } catch (error) {
+    throw error;
   }
 }
