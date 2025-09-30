@@ -91,10 +91,11 @@ async function Validacion(){
         console.log('📥 Resultado:', resultado);
 
         if (resultado && resultado.length > 0) {
-            alert("¡REGISTRADO con éxito! 🎉");
+            alert("¡REGISTRADO con éxito! 🎉\n\nAhora proceda con el registro de pago.");
             console.log('✅ Postulante guardado:', resultado[0]);
             
-            document.getElementById("registroForm").reset();
+            // Redirigir a la página de pago
+            window.location.href = 'pago.html';
             return true;
         } else {
             alert("Error al guardar en la base de datos");
