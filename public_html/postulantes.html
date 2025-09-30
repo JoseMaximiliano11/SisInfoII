@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Postulantes</title>
+  <link rel="stylesheet" href="css/estiloI.css">
+</head>
+<body>
+  <h1 class="tit">Lista de Postulantes</h1>
+
+
+  <div id="contenedor-postulantes" style="margin-top:20px;"></div>
+
+  
+  <button class="boton" onclick="window.location.href='index.html'">Volver al Inicio</button>
+
+  <!-- Scripts -->
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+
+  <script>
+    // Mostrar tabla automáticamente al cargar
+    mostrarPostulantes();
+    
+   async function mostrarPostulantes() {
+      const contenedor = document.getElementById('contenedor-postulantes');
+      contenedor.innerHTML = "Cargando...";
+
+      const postulantes = await obtenerPostulantes(); 
+
+      if (!postulantes || postulantes.length === 0) {
+        contenedor.innerHTML = "<p>No hay postulantes registrados.</p>";
+        return;
+      }
+
+      // Crear tabla
+      let tabla = `<table class="tabla-postulantes">
+                      <tr>
+                        <th>Nombre</th>
+                        <th>CI</th>
+                        <th>Correo</th>
+                        <th>Facultad</th>
+                      </tr>`;
+
+      postulantes.forEach(p => {
+        tabla += `<tr>
+                    <td>${p.nombre}</td>
+                    <td>${p.ci}</td>
+                    <td>${p.correoElectronico}</td>
+                    <td>${p.facultad}</td>
+                  </tr>`;
+      });
+
+      tabla += "</table>";
+      contenedor.innerHTML = tabla;
+    }
+  </script>
+</body>
+</html>

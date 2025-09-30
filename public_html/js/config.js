@@ -16,22 +16,28 @@ async function conectarSupabase(tabla, metodo = 'GET', datos = null) {
         }
     };
 
-    if (datos) opciones.body = JSON.stringify(datos);
-  try {
-    const respuesta = await fetch(url, opciones);
-    let resultado = null;
-    try { resultado = await respuesta.json(); } catch (e) { resultado = null; }
-
-    if (!respuesta.ok) {
-    
-      const error = new Error(resultado?.message || 'Error en Supabase');
-      error.status = respuesta.status;
-      error.server = resultado;
-      throw error;
+    if (datos) {
+        opciones.body = JSON.stringify(datos);
     }
 
-    return { ok: true, status: respuesta.status, data: resultado };
-  } catch (error) {
-    throw error;
+    try {
+    const respuesta = await fetch(url, opciones);
+    const resultado = await respuesta.json();
+
+    if (!respuesta.ok) {
+        console.error("Error en Supabase:", resultado);
+        return null;
+    }
+    return resultado;
+} catch (error) {
+    console.error('Error conectando con Supabase:', error);
+    return null;
   }
 }
+
+async function pruebaConexion() {
+    const postulantes = await obtenerPostulantes();
+    console.log("Resultado de Supabase:", postulantes);
+}
+
+pruebaConexion();
