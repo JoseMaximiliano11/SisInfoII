@@ -34,3 +34,10 @@ async function conectarSupabase(tabla, metodo = 'GET', datos = null) {
     return null;
   }
 }
+
+async function pruebaConexion() {
+    const postulantes = await obtenerPostulantes();
+    console.log("Resultado de Supabase:", postulantes);
+}
+
+pruebaConexion();
