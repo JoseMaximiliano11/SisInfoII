@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Universidad</title>
+  <link rel="stylesheet" href="CSS/estiloLogin.css">
+</head>
+<body>
+  <div class="login-container">
+    <input type="email" id="email" placeholder="E-mail" class="input-box" required>
+    <input type="password" id="password" placeholder="Password" class="input-box" required>
+    <button class="boton" onclick="iniciarSesion()">INICIAR SESIÓN</button>
+  </div>
+
+  <script>
+    function iniciarSesion() {
+      // Obtener los valores de los inputs
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      // Verificar si están vacíos
+      if (email === "" || password === "") {
+        alert("Por favor, completa todos los campos.");
+      } else {
+        // Si no están vacíos, redirigir
+        window.location.href = "inicio.html";
+      }
+    }
+  </script>
+</body>
+</html>
